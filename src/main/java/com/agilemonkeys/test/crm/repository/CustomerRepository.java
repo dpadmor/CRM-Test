@@ -1,12 +1,12 @@
 package com.agilemonkeys.test.crm.repository;
 
 import com.agilemonkeys.test.crm.domain.entity.Customer;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 
-public interface CustomerRepository extends Repository<Customer, String> {
+public interface CustomerRepository extends PagingAndSortingRepository<Customer, String> {
 
-    Page<Customer>  findAll (Pageable pageable);
+
+
+
 }

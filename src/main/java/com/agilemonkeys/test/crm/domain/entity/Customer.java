@@ -2,23 +2,31 @@ package com.agilemonkeys.test.crm.domain.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Customer {
 
+    public Customer (String id, String name, String surname) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public Customer () {};
+
     @Id
+    @NotEmpty
     private String id;
 
     @NotNull
+    @NotEmpty
     private String name;
 
     @NotNull
+    @NotEmpty
     private String surname;
-
-
-    public Customer() {
-    }
 
     public String getId() {
         return id;
