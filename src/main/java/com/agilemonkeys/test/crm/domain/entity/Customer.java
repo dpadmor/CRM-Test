@@ -1,6 +1,8 @@
 package com.agilemonkeys.test.crm.domain.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,8 @@ public class Customer {
         this.name = name;
         this.surname = surname;
     }
+
+
 
     public Customer () {};
 
@@ -27,6 +31,14 @@ public class Customer {
     @NotNull
     @NotEmpty
     private String surname;
+
+    @Enumerated(EnumType.STRING)
+    private CustomerStatus status = CustomerStatus.USER;
+
+    private String photoUrl;
+
+    private String password;
+
 
     public String getId() {
         return id;
@@ -54,6 +66,27 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer { ID : " + id + ", NAME : " + name + ", SURNAME : " + surname + "}";
+        return "Customer{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", status=" + status +
+                '}';
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
