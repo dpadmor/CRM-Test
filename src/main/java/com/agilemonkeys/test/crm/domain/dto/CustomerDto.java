@@ -1,11 +1,16 @@
 package com.agilemonkeys.test.crm.domain.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class CustomerDto {
 
+    @NotNull
     private String id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String surname;
 
     public String getId() {
