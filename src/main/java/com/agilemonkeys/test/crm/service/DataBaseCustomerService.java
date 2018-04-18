@@ -6,7 +6,10 @@ import com.agilemonkeys.test.crm.exception.EntityNotFoundCRMException;
 import com.agilemonkeys.test.crm.repository.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -25,6 +28,7 @@ public class DataBaseCustomerService implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<CustomerDto> getCustomer(String idCustomer) throws EntityNotFoundCRMException {
         ModelMapper modelMapper = new ModelMapper();
         Optional<Customer> customer = customerRepository.findById(idCustomer);
@@ -33,6 +37,14 @@ public class DataBaseCustomerService implements CustomerService {
         }
         CustomerDto customerDto = modelMapper.map(customer.get(), CustomerDto.class);
         return Optional.of(customerDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Customer> getAllCustomer (Integer numPage, Integer numElementsForPage) {
+        PageRequest pageRequest = new PageRequest(numPage, numElementsForPage);
+        Page<Customer> customers = customerRepository.findAll(pageRequest);
+        return customers;
     }
 
 }
