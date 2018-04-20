@@ -1,7 +1,7 @@
 package com.agilemonkeys.test.crm.service;
 
-import com.agilemonkeys.test.crm.domain.dto.CustomerDto;
-import com.agilemonkeys.test.crm.domain.entity.Customer;
+import com.agilemonkeys.test.crm.model.dto.CustomerDto;
+import com.agilemonkeys.test.crm.model.entity.Customer;
 import com.agilemonkeys.test.crm.exception.EntityNotFoundCRMException;
 import com.agilemonkeys.test.crm.repository.CustomerRepository;
 import org.modelmapper.ModelMapper;
@@ -20,11 +20,16 @@ public class DataBaseCustomerService implements CustomerService {
     CustomerRepository customerRepository;
 
     @Override
-    public CustomerDto updateCustomer(CustomerDto customerDto) {
+    public CustomerDto createOrUpdateCustomer(CustomerDto customerDto) {
         ModelMapper modelMapper = new ModelMapper();
         Customer customer = modelMapper.map(customerDto, Customer.class);
         Customer customerSaved = customerRepository.save(customer);
         return modelMapper.map(customerSaved, CustomerDto.class);
+    }
+
+    @Override
+    public void deleteCustomer (String idCustomer) {
+        customerRepository.deleteById(idCustomer);
     }
 
     @Override
@@ -41,10 +46,12 @@ public class DataBaseCustomerService implements CustomerService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Customer> getAllCustomer (Integer numPage, Integer numElementsForPage) {
+    public Page<Customer> getAllCustomers(Integer numPage, Integer numElementsForPage) {
         PageRequest pageRequest = new PageRequest(numPage, numElementsForPage);
         Page<Customer> customers = customerRepository.findAll(pageRequest);
         return customers;
     }
+
+
 
 }

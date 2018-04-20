@@ -1,8 +1,11 @@
-package com.agilemonkeys.test.crm.domain.dto;
+package com.agilemonkeys.test.crm.model.dto;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-public class CustomerDto {
+public class CustomerDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @NotNull
     private String id;

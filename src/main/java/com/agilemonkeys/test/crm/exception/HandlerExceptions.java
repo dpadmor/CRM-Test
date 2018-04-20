@@ -22,4 +22,16 @@ public class HandlerExceptions extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, exceptionResponse.getStatus());
     }
 
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<Object> handleExceptionn(Exception ex) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Genenral Error",
+                ex.getMessage());
+
+        return new ResponseEntity<>(exceptionResponse, exceptionResponse.getStatus());
+    }
+
+
+
 }

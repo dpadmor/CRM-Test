@@ -1,6 +1,6 @@
 package com.agilemonkeys.test.crm.repository;
 
-import com.agilemonkeys.test.crm.domain.entity.Customer;
+import com.agilemonkeys.test.crm.model.entity.Customer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

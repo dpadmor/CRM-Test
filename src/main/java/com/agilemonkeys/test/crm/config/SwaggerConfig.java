@@ -32,7 +32,7 @@ public class SwaggerConfig {
                 "Spring Boot REST API for CRM",
                 "1.0",
                 "Terms of service",
-                "Daniel Padrón M",
+                "Daniel PM",
                 "Apache License Version 2.0",
                 "https://www.apache.org/licenses/LICENSE-2.0");
         return apiInfo;

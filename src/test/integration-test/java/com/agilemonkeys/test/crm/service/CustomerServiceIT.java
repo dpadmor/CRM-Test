@@ -1,6 +1,6 @@
 package com.agilemonkeys.test.crm.service;
 
-import com.agilemonkeys.test.crm.domain.dto.CustomerDto;
+import com.agilemonkeys.test.crm.model.dto.CustomerDto;
 import com.agilemonkeys.test.crm.exception.EntityNotFoundCRMException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ public class CustomerServiceIT {
         customerDto.setId(ID);
         customerDto.setSurname("PM");
 
-        CustomerDto customerSavedDto = customerService.updateCustomer(customerDto);
+        CustomerDto customerSavedDto = customerService.createOrUpdateCustomer(customerDto);
         Assert.isTrue(ID.equals(customerSavedDto.getId()),"Error, Customer not save");
     }
 
