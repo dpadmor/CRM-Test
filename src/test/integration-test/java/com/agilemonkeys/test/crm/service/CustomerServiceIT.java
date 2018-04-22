@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
 
+import java.util.Optional;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CustomerServiceIT {
@@ -24,7 +26,7 @@ public class CustomerServiceIT {
     CustomerService customerService;
 
     @Test
-    public void saveCustomerTest () {
+    public void saveCustomerTest () throws EntityNotFoundCRMException {
         CustomerDto customerDto = new CustomerDto();
         customerDto.setName("Juan");
         customerDto.setId(ID);
@@ -32,6 +34,9 @@ public class CustomerServiceIT {
 
         CustomerDto customerSavedDto = customerService.createOrUpdateCustomer(customerDto);
         Assert.isTrue(ID.equals(customerSavedDto.getId()),"Error, Customer not save");
+        Optional<CustomerDto> newCustomer = customerService.getCustomer(ID);
+        Assert.isTrue(newCustomer.isPresent() &&
+        ID.equals(newCustomer.get().getId()), "Error, Customer not found") ;
     }
 
     @Test

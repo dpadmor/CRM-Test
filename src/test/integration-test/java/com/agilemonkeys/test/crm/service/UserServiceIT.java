@@ -2,7 +2,6 @@ package com.agilemonkeys.test.crm.service;
 
 import com.agilemonkeys.test.crm.exception.EntityNotFoundCRMException;
 import com.agilemonkeys.test.crm.model.dto.UserDto;
-import com.agilemonkeys.test.crm.model.entity.User;
 import com.agilemonkeys.test.crm.model.entity.UserStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,7 +56,7 @@ public class UserServiceIT {
 
     @Test
     public void getAllUsers() {
-        Page<User> allUsers = userService.getAllUsers(0, 10);
+        Page<UserDto> allUsers = userService.getAllUsers(0, 10);
         allUsers.forEach(user ->
                 log.info(user.toString()));
         Assert.isTrue(allUsers.getTotalElements() > 0);
