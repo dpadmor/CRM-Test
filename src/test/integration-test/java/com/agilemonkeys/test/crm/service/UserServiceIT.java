@@ -26,12 +26,13 @@ public class UserServiceIT {
     UserService userService;
 
     @Test
-    public void createOrUpdateUser() throws EntityNotFoundCRMException {
+    public void createUserOK() throws EntityNotFoundCRMException {
         UserDto userDto = new UserDto("Pepe1980", "123456", "Pepe", "PM");
-        UserDto newUser = userService.createOrUpdateUser(userDto);
+        UserDto newUser = userService.createUser(userDto);
 
         Optional<UserDto> user = userService.getUser(newUser.getUsername());
         Assert.isTrue(user.isPresent());
+        log.info(user.toString());
     }
 
     @Test(expected = EntityNotFoundCRMException.class)

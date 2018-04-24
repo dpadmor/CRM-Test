@@ -9,6 +9,7 @@ import com.agilemonkeys.test.crm.util.ModelMapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +24,26 @@ public class DataBaseUserService  implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
     @Override
-    public UserDto createOrUpdateUser(UserDto userDto) {
+    public UserDto createUser(UserDto userDto) {
+        if (userRepository.existsById(userDto.getUsername())) {
+            // TODO return userExistException
+        }
+        User user = modelMapper.map(userDto, User.class);
+        // TODO set Audit
+        // Encode of plain password
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+
+        User userSaved = userRepository.save(user);
+        return modelMapper.map(userSaved, UserDto.class);
+    }
+
+    @Override
+    public UserDto updateUser(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
         User userSaved = userRepository.save(user);
         return modelMapper.map(userSaved, UserDto.class);
@@ -43,6 +62,11 @@ public class DataBaseUserService  implements UserService {
         UserDto userDto = modelMapper.map(newUser, UserDto.class);
         //userDto.setStatus(newStatus.name());
         return userDto;
+    }
+
+    @Override
+    public void loginUser(String user, String password) {
+
     }
 
     @Override

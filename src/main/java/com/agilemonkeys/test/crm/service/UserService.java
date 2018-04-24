@@ -10,7 +10,9 @@ import java.util.Optional;
 
 public interface UserService {
 
-    UserDto createOrUpdateUser(UserDto UserDto);
+    UserDto createUser(UserDto userDto);
+
+    UserDto updateUser(UserDto userDto);
 
     void deleteUser(String idUser);
 
@@ -20,4 +22,6 @@ public interface UserService {
     Page<UserDto> getAllUsers(Integer numPage, Integer numElementsForPage);
 
     UserDto changeStatusOfUser (String idUser, UserStatus newStatus);
+
+    void loginUser(String user, String password);
 }
