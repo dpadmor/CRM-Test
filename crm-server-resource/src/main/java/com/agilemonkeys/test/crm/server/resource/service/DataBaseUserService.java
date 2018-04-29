@@ -1,15 +1,15 @@
-package com.agilemonkeys.test.crm.service;
+package com.agilemonkeys.test.crm.server.resource.service;
 
-import com.agilemonkeys.test.crm.exception.EntityNotFoundCRMException;
-import com.agilemonkeys.test.crm.model.dto.UserDto;
-import com.agilemonkeys.test.crm.model.entity.User;
-import com.agilemonkeys.test.crm.model.entity.UserStatus;
-import com.agilemonkeys.test.crm.repository.UserRepository;
-import com.agilemonkeys.test.crm.util.ModelMapperUtil;
+
+import com.agilemonkeys.test.crm.server.resource.exception.EntityNotFoundCRMException;
+import com.agilemonkeys.test.crm.server.resource.model.dto.UserDto;
+import com.agilemonkeys.test.crm.server.resource.model.entity.User;
+import com.agilemonkeys.test.crm.server.resource.model.entity.UserStatus;
+import com.agilemonkeys.test.crm.server.resource.repository.UserRepository;
+import com.agilemonkeys.test.crm.server.resource.util.ModelMapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +24,8 @@ public class DataBaseUserService  implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+ /*   @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;*/
 
 
     public UserDto createUser(UserDto userDto) {
@@ -35,7 +35,8 @@ public class DataBaseUserService  implements UserService {
         User user = modelMapper.map(userDto, User.class);
         // TODO set Audit
         // Encode of plain password
-        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        //user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        user.setPassword(userDto.getPassword());
 
         User userSaved = userRepository.save(user);
         return modelMapper.map(userSaved, UserDto.class);
@@ -83,7 +84,7 @@ public class DataBaseUserService  implements UserService {
 
     @Transactional(readOnly = true)
     public Page<UserDto> getAllUsers(Integer numPage, Integer numElementsForPage) {
-        PageRequest pageRequest = new PageRequest(numPage, numElementsForPage);
+        PageRequest pageRequest = PageRequest.of(numPage, numElementsForPage);
         Page<User> users = userRepository.findAll(pageRequest);
         return modelMapper.map(users, UserDto.class);
     }
