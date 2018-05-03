@@ -22,7 +22,6 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    private static String REALM="MY_OAUTH_REALM";
 
     @Autowired
     private ClientDetailsService clientDetailsService;
@@ -57,6 +56,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+        String REALM = "MY_OAUTH_REALM";
         oauthServer.realm(REALM + "/client");
     }
 
