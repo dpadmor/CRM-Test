@@ -5,7 +5,7 @@
 
     <groupId>com.agilemonkeys.test</groupId>
     <artifactId>crm-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>crm-api</name>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>com.agilemonkeys.test</groupId>
             <artifactId>crm-commons</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

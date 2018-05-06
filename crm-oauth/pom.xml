@@ -5,7 +5,7 @@
 
     <groupId>com.agilemonkeys.test</groupId>
     <artifactId>crm-oauth</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>crm-oauth</name>

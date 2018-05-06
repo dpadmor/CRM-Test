@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity
 @EnableGlobalAuthentication
+//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -48,17 +49,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors()
+         http
+               .cors()
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/oauth/authorize", "/oauth/check_token").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/users/*").permitAll()
+                //.anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll()
-                .and()
-                .logout().permitAll();
+                .formLogin().disable()
+                .httpBasic().disable();
+        /*http.authorizeRequests().antMatchers("/users/**").authenticated().and().httpBasic().disable().csrf().disable();*/
     }
 
     @Bean

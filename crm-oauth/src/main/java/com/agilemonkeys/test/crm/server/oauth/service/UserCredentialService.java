@@ -6,6 +6,7 @@ import com.agilemonkeys.test.crm.server.oauth.model.entity.UserCredential;
 import com.agilemonkeys.test.crm.server.oauth.repository.UserCredentialRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +30,7 @@ public class UserCredentialService implements UserDetailsService {
         return userCredentialRepository.findOne(username);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserCredential loadUser (String username) {
         return userCredentialRepository.findOne(username);
     }
@@ -40,7 +42,9 @@ public class UserCredentialService implements UserDetailsService {
         if (userCredential == null) {
             throw new EntityNotFoundCRMException(userId);
         }
-        return modelMapper.map(userCredential, UserDto.class);
+        UserDto userDto = modelMapper.map(userCredential, UserDto.class);
+        userDto.setPassword("");
+        return userDto;
     }
 
     public void deleteUser(String userId) throws EntityNotFoundCRMException {
@@ -50,6 +54,11 @@ public class UserCredentialService implements UserDetailsService {
         }
         userCredentialRepository.delete(userCredential);
 
+    }
+
+    @Transactional
+    public void updateRol (String rol, String username) {
+        userCredentialRepository.updateRol(rol, username);
     }
 
     public UserDto createOrUpdateUser(UserDto userDto) {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,13 +45,20 @@ public class UserRestResource {
     @PostMapping(value="/")
     @ApiOperation(value= "/")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserDto> createUser(@Valid UserDto userDto) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto newUser = userService.createOrUpdateUser(userDto);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-
-
+    @PostMapping(value="/{userId}/rol/{newRol}")
+    @ApiOperation(value= "/{userId}/rol/{newRol}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserDto> changeRol (@PathVariable String newRol, @PathVariable String userId) throws EntityNotFoundCRMException {
+        Assert.hasLength(newRol, "ERROR paramether ROL is EMPTY");
+        userService.updateRol(newRol, userId);
+        UserDto user = userService.getUser(userId);
+        return new ResponseEntity <> (user, HttpStatus.OK);
+    }
 
     @GetMapping(value="/version")
     @ApiOperation(value="/version")

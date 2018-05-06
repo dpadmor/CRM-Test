@@ -1,6 +1,8 @@
 package com.agilemonkeys.test.crm.server.oauth.controller;
 
+import com.agilemonkeys.test.crm.commons.exception.EntityNotFoundCRMException;
 import com.agilemonkeys.test.crm.server.oauth.model.dto.UserDto;
+import com.agilemonkeys.test.crm.server.oauth.model.entity.UserCredential;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,20 +60,40 @@ public class UserRestResourceIT {
 
 
     @Test
-    public void getUser() {
+    public void getUserTest() {
         String username = "dani1";
-
+        log.info("AccessToken " + restTemplate.getAccessToken().getValue());
         ResponseEntity<UserDto> response = restTemplate.getForEntity(urlController + "/" + username, UserDto.class);
         Assert.isTrue(username.equals(response.getBody().getUsername())," ERROR user not found");
         log.info(response.getBody().toString());
     }
 
-    @Test
-    public void deleteUser() {
+    @Test(expected = EntityNotFoundCRMException.class)
+    public void deleteUserTest() {
+        String username = "dani1";
+        log.info("AccessToken " + restTemplate.getAccessToken().getValue());
+        restTemplate.delete(urlController + "/" + username, UserDto.class);
+        restTemplate.getForEntity(urlController + "/" + username, UserDto.class);
     }
 
     @Test
-    public void createUser() {
+    public void changeRolTest () {
+        String username = "dani1";
+        String rol = "USER";
+       // ResponseEntity<UserDto> response = restTemplate.postFor(urlController + "/" + username + "/rol?rol={newrol}", rol);
+        //log.info(response.getBody().toString());
+        //Assert.isTrue(rol.equals(response.getBody().getRol()), "ERROR rol is not changed");
+    }
+
+    @Test
+    public void createUserTest() {
+        UserCredential userCredential = new UserCredential();
+        userCredential.setUsername("user1");
+        userCredential.setPassword("111222333444");
+        userCredential.setRol("ADMIN");
+
+        ResponseEntity<UserDto> responseEntity = restTemplate.postForEntity(urlController + "/", userCredential, UserDto.class);
+        log.info(responseEntity.getBody().toString());
     }
 
     @Test

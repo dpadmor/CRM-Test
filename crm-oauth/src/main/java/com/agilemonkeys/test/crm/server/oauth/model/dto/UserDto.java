@@ -7,9 +7,10 @@ public class UserDto {
     @NotBlank
     private String username;
 
-
     @NotBlank
     private String rol;
+
+    private String password;
 
     public String getUsername() {
         return username;
@@ -25,6 +26,14 @@ public class UserDto {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
