@@ -1,7 +1,7 @@
 package com.agilemonkeys.test.crm.server.resource.service;
 
 
-import com.agilemonkeys.test.crm.server.resource.exception.EntityNotFoundCRMException;
+import com.agilemonkeys.test.crm.commons.exception.EntityNotFoundCRMException;
 import com.agilemonkeys.test.crm.server.resource.model.dto.UserDto;
 import com.agilemonkeys.test.crm.server.resource.model.entity.User;
 import com.agilemonkeys.test.crm.server.resource.model.entity.UserStatus;
@@ -10,6 +10,7 @@ import com.agilemonkeys.test.crm.server.resource.util.ModelMapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +25,8 @@ public class DataBaseUserService  implements UserService {
     @Autowired
     UserRepository userRepository;
 
- /*   @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;*/
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     public UserDto createUser(UserDto userDto) {
@@ -33,10 +34,6 @@ public class DataBaseUserService  implements UserService {
             // TODO return userExistException
         }
         User user = modelMapper.map(userDto, User.class);
-        // TODO set Audit
-        // Encode of plain password
-        //user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        user.setPassword(userDto.getPassword());
 
         User userSaved = userRepository.save(user);
         return modelMapper.map(userSaved, UserDto.class);
@@ -60,14 +57,9 @@ public class DataBaseUserService  implements UserService {
         user.setStatus(newStatus.name());
         User newUser = userRepository.save(user);
         UserDto userDto = modelMapper.map(newUser, UserDto.class);
-        //userDto.setStatus(newStatus.name());
         return userDto;
     }
 
-
-    public void loginUser(String user, String password) {
-
-    }
 
 
     @Transactional(readOnly = true)

@@ -1,9 +1,8 @@
 package com.agilemonkeys.test.crm.server.resource.service;
 
 
-import com.agilemonkeys.test.crm.server.resource.exception.EntityNotFoundCRMException;
+import com.agilemonkeys.test.crm.commons.exception.EntityNotFoundCRMException;
 import com.agilemonkeys.test.crm.server.resource.model.dto.UserDto;
-import com.agilemonkeys.test.crm.server.resource.model.entity.UserStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -28,7 +27,7 @@ public class UserServiceIT {
 
     @Test
     public void createUserTest() throws EntityNotFoundCRMException {
-        UserDto userDto = new UserDto("Pepe1980", "123456", "Pepe", "PM");
+        UserDto userDto = new UserDto("Pepe1980",  "Pepe", "PM");
         UserDto newUser = userService.createUser(userDto);
 
         Optional<UserDto> user = userService.getUser(newUser.getUsername());
@@ -64,14 +63,5 @@ public class UserServiceIT {
         Assert.isTrue(allUsers.getTotalElements() > 0);
     }
 
-    @Test
-    public void changeStatusTest () throws EntityNotFoundCRMException {
-        Optional<UserDto> user = userService.getUser("22");
-        log.info(user.get().toString());
-        Assert.isTrue(user.get().getStatus().equals(UserStatus.USER.name()));
-        UserDto userDto = userService.changeStatusOfUser("22", UserStatus.ADMIN);
-        Assert.isTrue(userDto.getStatus().equals(UserStatus.ADMIN.name()));
-        log.info(userDto.toString());
 
-    }
 }

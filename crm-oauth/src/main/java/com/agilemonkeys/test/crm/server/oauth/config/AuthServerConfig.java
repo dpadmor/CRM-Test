@@ -60,7 +60,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
                 .scopes("read", "write")
                 .authorities("CLIENT_APP")
-                .resourceIds("MANDIRI_RESOURCE")
+                .resourceIds("CRM_RESOURCE")
                 .autoApprove(true);
     }
 

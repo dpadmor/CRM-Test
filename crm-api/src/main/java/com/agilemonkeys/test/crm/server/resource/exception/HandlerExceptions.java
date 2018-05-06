@@ -1,5 +1,8 @@
 package com.agilemonkeys.test.crm.server.resource.exception;
 
+import com.agilemonkeys.test.crm.commons.exception.EntityNotFoundCRMException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,6 +14,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class HandlerExceptions extends ResponseEntityExceptionHandler {
 
+    Logger log = LoggerFactory.getLogger(HandlerExceptions.class);
 
     @ExceptionHandler(EntityNotFoundCRMException.class)
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundCRMException ex) {
@@ -24,10 +28,13 @@ public class HandlerExceptions extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleExceptionn(Exception ex) {
+
+        log.error(ex.getMessage(),ex);
+
         ExceptionResponse exceptionResponse = new ExceptionResponse(LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                "Genenral Error",
-                ex.getMessage());
+                "Genenal Error",
+                "Cause :" + ex.getCause() + " Message :" + ex.getMessage());
 
         return new ResponseEntity<>(exceptionResponse, exceptionResponse.getStatus());
     }

@@ -1,7 +1,7 @@
 package com.agilemonkeys.test.crm.server.resource.service;
 
 
-import com.agilemonkeys.test.crm.server.resource.exception.EntityNotFoundCRMException;
+import com.agilemonkeys.test.crm.commons.exception.EntityNotFoundCRMException;
 import com.agilemonkeys.test.crm.server.resource.model.dto.CustomerDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,9 +42,11 @@ public class CustomerServiceIT {
 
         CustomerDto customerSavedDto = customerService.createOrUpdateCustomer(customerDto);
         Assert.isTrue(ID.equals(customerSavedDto.getId()),"Error, Customer not save");
+        log.info(customerSavedDto.toString());
         Optional<CustomerDto> newCustomer = customerService.getCustomer(ID);
         Assert.isTrue(newCustomer.isPresent() &&
         ID.equals(newCustomer.get().getId()), "Error, Customer not found") ;
+        log.info(newCustomer.toString());
     }
 
     @Test

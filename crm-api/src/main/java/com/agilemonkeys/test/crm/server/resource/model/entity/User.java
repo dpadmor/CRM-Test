@@ -1,9 +1,10 @@
 package com.agilemonkeys.test.crm.server.resource.model.entity;
 
-import com.sun.istack.internal.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,7 +13,7 @@ public class User {
     public User() {
     }
 
-    public User(@NotNull String username, @NotNull String password, String name, String surname) {
+    public User(@NotBlank String username, @NotBlank String password, String name, String surname) {
         this.username = username;
         this.password = password;
         this.name = name;

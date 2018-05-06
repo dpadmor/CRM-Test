@@ -1,12 +1,20 @@
 package com.agilemonkeys.test.crm.server.resource.model.entity;
 
 
-import com.sun.istack.internal.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value={"photo"})
 public class Customer {
 
     public Customer (String id, String name, String surname) {
@@ -26,7 +34,28 @@ public class Customer {
     @NotNull
     private String surname;
 
-    private String photoUrl;
+    @Lob
+    private byte [] photo = null;
+
+    private String idphoto;
+
+    private String photoName;
+
+    @Column(updatable = false)
+    @CreatedDate
+    private Date createdAt;
+
+    @Column(updatable = false)
+    @CreatedBy
+    private String createdBy;
+
+    @Column()
+    @LastModifiedDate
+    private Date updatedAt;
+
+    @Column()
+    @LastModifiedBy
+    private String updatedBy;
 
 
 
@@ -54,14 +83,33 @@ public class Customer {
         this.surname = surname;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public Date getCreatedAt () {
+        return createdAt;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public Date getUpdatedAt () {
+        return updatedAt;
     }
 
+    public String getCreatedBy() { return createdBy; }
+
+    public String getUpdatedBy () { return updatedBy; }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getIdphoto() {
+        return idphoto;
+    }
+
+    public void setIdphoto(String idphoto) {
+        this.idphoto = idphoto;
+    }
 
     @Override
     public String toString() {
@@ -69,7 +117,19 @@ public class Customer {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", photoUrl='" + photoUrl + '\'' +
+                ", idphoto='" + idphoto + '\'' +
+                ", createdAt=" + createdAt +
+                ", createdBy='" + createdBy + '\'' +
+                ", updatedAt=" + updatedAt +
+                ", updatedBy='" + updatedBy + '\'' +
                 '}';
+    }
+
+    public String getPhotoName() {
+        return photoName;
+    }
+
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
 }

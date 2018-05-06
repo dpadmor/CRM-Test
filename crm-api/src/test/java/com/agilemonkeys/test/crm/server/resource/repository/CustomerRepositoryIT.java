@@ -41,6 +41,6 @@ public class CustomerRepositoryIT {
 
         Customer customerSave = customerRepostiory.save(customer);
         Assert.isTrue(customerSave.getId() != null,"ERROR Customer is NULL");
-        log.info("Save customer " + customer.toString());
+        log.info("Save customer " + customerSave.toString());
     }
 }

@@ -14,7 +14,7 @@ public class ResourcesConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId("MANDIRI_RESOURCE");
+        resources.resourceId("CRM_RESOURCE");
     }
 
     @Override

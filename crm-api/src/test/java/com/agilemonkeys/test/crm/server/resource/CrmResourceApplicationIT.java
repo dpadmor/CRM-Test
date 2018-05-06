@@ -42,7 +42,6 @@ public class CrmResourceApplicationIT {
     @Test
     public void getVersion () {
         ResponseEntity<String> response = restTemplate.getForEntity(String.format("http://localhost:%d/users/version", serverPort), String.class);
-
         log.info(response.getBody());
     }
 

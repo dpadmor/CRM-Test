@@ -1,19 +1,24 @@
 package com.agilemonkeys.test.crm.server.resource.controller;
 
 
-import com.agilemonkeys.test.crm.server.resource.exception.EntityNotFoundCRMException;
+import com.agilemonkeys.test.crm.commons.exception.EntityNotFoundCRMException;
 import com.agilemonkeys.test.crm.server.resource.model.dto.CustomerDto;
+import com.agilemonkeys.test.crm.server.resource.model.dto.PhotoDto;
+import com.agilemonkeys.test.crm.server.resource.model.dto.VersionDto;
 import com.agilemonkeys.test.crm.server.resource.service.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Optional;
 
 
@@ -27,7 +32,6 @@ public class CustomerRestResource {
 
     @GetMapping(value= "/all")
     @ApiOperation(value= "/all")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getAllCustomer (Integer  numElements, Integer numPage) {
         Page<CustomerDto> allCustomers = customerService.getAllCustomers(numPage, numElements);
         return new ResponseEntity<>(allCustomers.getContent(), HttpStatus.OK);
@@ -55,11 +59,28 @@ public class CustomerRestResource {
         return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
+    @PostMapping(value ="{customerId}/photo")
+    @ApiOperation(value ="{customerId}/photo")
+    public ResponseEntity<String> uploadPhoto(@PathVariable String customerId, @RequestBody MultipartFile photoCustomer) throws IOException, EntityNotFoundCRMException {
+        String idPhoto = customerService.uploadPhoto(customerId, photoCustomer);
+        return new ResponseEntity<>("Photo uploaded with ID " + idPhoto, HttpStatus.OK);
+    }
+
+    @GetMapping(value ="{customerId}/photo")
+    @ApiOperation(value ="{customerId}/photo")
+    public ResponseEntity<byte[]> getPhoto(@PathVariable String customerId) throws EntityNotFoundCRMException {
+        PhotoDto photo = customerService.getPhotoByCustomer(customerId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+        return new ResponseEntity<>(photo.getPhoto(), headers, HttpStatus.OK);
+    }
+
+
     @GetMapping(value="/version")
     @ApiOperation(value="/version")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public String getVersion () {
-        return "1.0";
+    public ResponseEntity<VersionDto> getVersion () {
+        return new ResponseEntity<>(customerService.getVersion(), HttpStatus.OK);
     }
 
 

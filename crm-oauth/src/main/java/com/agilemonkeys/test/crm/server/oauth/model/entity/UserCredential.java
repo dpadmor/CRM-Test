@@ -1,5 +1,6 @@
-package com.agilemonkeys.test.crm.server.oauth.model;
+package com.agilemonkeys.test.crm.server.oauth.model.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,11 +21,16 @@ public class UserCredential implements UserDetails {
     @NotNull
     private String username;
 
+    @NotNull
+    @NotBlank
     private String password;
+
+    @NotBlank
+    private String rol;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_ADMIN");
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + rol);
         List<SimpleGrantedAuthority> updatedAuthorities = new ArrayList<SimpleGrantedAuthority>();
         updatedAuthorities.add(authority);
         return updatedAuthorities;
@@ -70,11 +76,11 @@ public class UserCredential implements UserDetails {
     }
 
 
-    @Override
-    public String toString() {
-        return "UserCredential{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }

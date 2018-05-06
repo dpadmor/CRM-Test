@@ -1,5 +1,6 @@
-package com.agilemonkeys.test.crm.server.oauth;
+package com.agilemonkeys.test.crm.server.oauth.controller;
 
+import com.agilemonkeys.test.crm.server.oauth.model.dto.UserDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -17,10 +19,11 @@ import org.springframework.util.Assert;
 import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CrmOauthApplicationIT {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class UserRestResourceIT {
 
-    Logger log = LoggerFactory.getLogger(CrmOauthApplicationIT.class);
+    Logger log = LoggerFactory.getLogger(UserRestResourceIT.class);
+
 
     @LocalServerPort
     protected int serverPort;
@@ -29,9 +32,9 @@ public class CrmOauthApplicationIT {
 
     private String password = "dani3";
 
-    private OAuth2RestTemplate restTemplate;
-
     private ResourceOwnerPasswordResourceDetails resourceDetails;
+    private OAuth2RestTemplate restTemplate;
+    private String urlController;
 
 
     @Before
@@ -49,16 +52,29 @@ public class CrmOauthApplicationIT {
 
         restTemplate = new OAuth2RestTemplate(resourceDetails, clientContext);
         restTemplate.setMessageConverters(Arrays.asList(new MappingJackson2HttpMessageConverter()));
+
+        urlController = String.format("http://localhost:%d/users",serverPort);
+    }
+
+
+    @Test
+    public void getUser() {
+        String username = "dani1";
+
+        ResponseEntity<UserDto> response = restTemplate.getForEntity(urlController + "/" + username, UserDto.class);
+        Assert.isTrue(username.equals(response.getBody().getUsername())," ERROR user not found");
+        log.info(response.getBody().toString());
     }
 
     @Test
-    public void getAccessTokenOKTest () {
-        Assert.isTrue(!restTemplate.getAccessToken().toString().isEmpty(), "ERROR: Empty Access Token");
-        log.info ("Access Token : " + restTemplate.getAccessToken().toString());
-        log.info("Token Info " +  restTemplate.getAccessToken().getAdditionalInformation().get("organization") +  " " );
+    public void deleteUser() {
     }
 
+    @Test
+    public void createUser() {
+    }
 
-
-
+    @Test
+    public void getVersion() {
+    }
 }

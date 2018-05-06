@@ -1,4 +1,4 @@
-package com.agilemonkeys.test.crm.server.resource.exception;
+package com.agilemonkeys.test.crm.commons.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;

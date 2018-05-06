@@ -1,4 +1,4 @@
-package com.agilemonkeys.test.crm.server.resource.exception;
+package com.agilemonkeys.test.crm.commons.exception;
 
 public class EntityNotFoundCRMException extends Exception{
 
