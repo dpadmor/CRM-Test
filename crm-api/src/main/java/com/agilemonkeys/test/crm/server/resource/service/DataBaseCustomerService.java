@@ -48,12 +48,14 @@ public class DataBaseCustomerService  implements CustomerService  {
 
     @Override
     public void deleteCustomer (String idCustomer) {
+        Assert.hasLength(idCustomer,"ERROR parameter 'idCustomer' is empty");
         customerRepository.delete(idCustomer);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<CustomerDto> getCustomer(String idCustomer) throws EntityNotFoundCRMException {
+        Assert.hasLength(idCustomer,"ERROR parameter 'idCustomer' is empty");
         Customer customer = customerRepository.findOne(idCustomer);
         if (customer == null) {
             throw new EntityNotFoundCRMException(idCustomer);
@@ -76,6 +78,7 @@ public class DataBaseCustomerService  implements CustomerService  {
 
     @Override
     public String uploadPhoto (String idCustomer, @RequestParam MultipartFile photo) throws IOException, EntityNotFoundCRMException {
+        Assert.hasLength(idCustomer,"ERROR parameter 'idCustomer' is empty");
         Assert.notNull(photo, "ERROR photo is NULL");
         Assert.notNull(photo.getBytes(), "ERROR photo is NULL");
 
@@ -95,6 +98,7 @@ public class DataBaseCustomerService  implements CustomerService  {
 
     @Override
     public PhotoDto getPhotoByCustomer(String customerId) throws EntityNotFoundCRMException {
+        Assert.hasLength(customerId,"ERROR parameter 'customerId' is empty");
         Customer customer = customerRepository.findOne(customerId);
 
         if (customer == null) {
@@ -106,6 +110,7 @@ public class DataBaseCustomerService  implements CustomerService  {
 
     @Override
     public PhotoDto getPhotoByPhotoId(String photoId) throws EntityNotFoundCRMException {
+        Assert.hasLength(photoId,"ERROR parameter 'photoId' is empty");
         Customer customer = customerRepository.findByPhotoId(photoId);
 
         if (customer == null) {
