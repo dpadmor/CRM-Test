@@ -12,6 +12,8 @@ API Test - The CRM service
 
 `mvn clean install ` in parent project crm-api
 
+
+
 **Execution**
 -
 
@@ -24,7 +26,10 @@ API Test - The CRM service
 CRM-Test contain two modules:
 
 - Api for Customer (crm-api)
+Documentations of CRUD ( http://localhost:8080/swagger-ui.html )
+
 - Server OAUTH2 (crm-oauth)
+Documentations of CRUD ( http://localhost:8081/swagger-ui.html )
 
 ![](http://sivatechlab.com/wp-content/uploads/2017/05/overall-password-flow-2.png)
 

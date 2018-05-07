@@ -34,6 +34,7 @@ public class UserCredentialRepositoryIT {
         UserCredential userCredential = new UserCredential();
         userCredential.setUsername("dani3");
         userCredential.setPassword(passwordEncoder.encode("dani3"));
+        userCredential.setRol("USER");
         userCredentialRepository.save(userCredential);
 
         Iterable<UserCredential> userCredentials = userCredentialRepository.findAll();

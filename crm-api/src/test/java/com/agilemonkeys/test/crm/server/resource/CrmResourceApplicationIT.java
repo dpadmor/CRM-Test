@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
@@ -39,11 +38,6 @@ public class CrmResourceApplicationIT {
 
     }
 
-    @Test
-    public void getVersion () {
-        ResponseEntity<String> response = restTemplate.getForEntity(String.format("http://localhost:%d/users/version", serverPort), String.class);
-        log.info(response.getBody());
-    }
 
 
 }
